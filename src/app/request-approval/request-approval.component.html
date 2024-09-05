@@ -1,0 +1,79 @@
+
+
+<div class="overflow-x-auto">
+    <!-- Table title, dynamically bound to the title input property -->
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4"></h2>
+    
+    <!-- Main table container -->
+    <table class="min-w-full bg-white border border-gray-200">
+      <!-- Table header -->
+      <thead class="bg-gray-200 text-gray-800">
+        <tr>
+          <!-- Table column headers -->
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">#</th>
+          
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">startDate</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">endDate</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">reasonForLeave</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">requestDate</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">approvalStatus</th>
+         
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">approvedBy</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">approveedDate</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">Action</th>
+        </tr>
+      </thead>
+     
+<tbody class="text-gray-700">
+    <!-- Loop through request list -->
+    <tr *ngFor="let request of Requests; let i = index" class="border-t">
+      <!-- Row number -->
+      <td class="px-4 py-2">{{ request.requestId}}</td>
+      
+      <!-- Start Date -->
+      <td class="px-4 py-2">{{ request.startDate | date:'yyyy-MM-dd' }}</td>
+      
+      <!-- End Date -->
+      <td class="px-4 py-2">{{ request.endDate | date:'yyyy-MM-dd' }}</td>
+      
+      <!-- Reason for Leave -->
+      <td class="px-4 py-2">{{ request.reasonForLeave }}</td>
+      
+      <!-- Request Date -->
+      <td class="px-4 py-2">{{ request.requestDate | date:'yyyy-MM-dd' }}</td>
+      
+      <!-- Approval Status -->
+      <td class="px-4 py-2">
+        <span [ngClass]="{
+          'text-green-500': request.approvalStatus === 'Approved',
+          'text-red-500': request.approvalStatus === 'Rejected',
+          'text-yellow-500': request.approvalStatus === 'Pending'
+        }">
+          {{ request.approvalStatus }}
+        </span>
+      </td>
+      
+      <!-- Approved By -->
+      <td class="px-4 py-2">{{ request.approvedBy}}</td>
+      <td class="px-4 py-2">{{ request.approvalDate }}</td>
+      
+      <td class="px-4 py-2">
+        <button class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+          Accepter
+        </button>
+        <button class="bg-red-600 text-white px-4 py-2 ml-2 rounded-md hover:bg-red-700">
+          Refuser
+        </button>
+      </td>
+      
+     
+      
+      
+        
+        </tr>
+      </tbody>
+    </table>
+  </div>
+      
+          
+
