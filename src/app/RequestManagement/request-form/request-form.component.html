@@ -1,0 +1,75 @@
+<!-- Modal Background (clicking here will close the modal) -->
+<div class="fixed inset-0 bg-black bg-opacity-50" (click)="onClose()"></div>
+
+<!-- Modal Content (centered in the screen) -->
+<div class="absolute inset-0 flex items-center justify-center">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-1/3">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
+        <!-- Modal Title -->
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+          Leave Request
+        </h3>
+        <!-- Close Button -->
+        <button type="button" (click)="onClose()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+          <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14" stroke="currentColor" stroke-width="2">
+            <path d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form #myform="ngForm"  class="p-4">
+        <div class="grid gap-4 mb-4 grid-cols-2">
+
+          <!-- Start Date Input -->
+          <div class="col-span-2">
+            <label for="startDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Date</label>
+            <input type="date" id="startDate" [(ngModel)]="request.startDate" #startDate="ngModel" name="startDate" required 
+              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
+            <div *ngIf="startDate.touched && startDate.invalid" class="text-red-500 mt-1">
+              <div *ngIf="startDate.errors?.['required']">Please select a start date.</div>
+              <div *ngIf="isDateInPast(request.startDate)">The start date cannot be in the past.</div>
+            </div>
+          </div>
+
+          <!-- End Date Input -->
+          <div class="col-span-2">
+            <label for="endDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Date</label>
+            <input type="date" id="endDate" [(ngModel)]="request.endDate" #endDate="ngModel" name="endDate" required 
+              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
+            <div *ngIf="endDate.touched && endDate.invalid" class="text-red-500 mt-1">
+              <div *ngIf="endDate.errors?.['required']">End date is required.</div>
+              <div *ngIf="isDateInPast(request.endDate)">End date cannot be in the past.</div>
+              <div *ngIf="isStartDateAfterEndDate(request.startDate, request.endDate)">End date must be after start date.</div>
+            </div>
+          </div>
+
+          <!-- Reason for Leave Input -->
+          <div class="col-span-2">
+            <label for="reasonForLeave" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reason for Leave</label>
+            <textarea id="reasonForLeave" [(ngModel)]="request.reasonForLeave" #reasonForLeave="ngModel" name="reasonForLeave" rows="4" required 
+              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:text-white"></textarea>
+            <div *ngIf="reasonForLeave.touched && reasonForLeave.invalid" class="text-red-500 mt-1">
+              <div *ngIf="reasonForLeave.errors?.['required']">Reason for leave is required.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="bg-primary-600 text-white rounded-lg px-4 py-2 hover:bg-primary-700">
+          Submit
+        </button>
+
+        <!-- Form Error Message -->
+        <div *ngIf="myform.submitted && myform.invalid" class="text-red-500 mt-3">
+          Please fill out all required fields correctly before submitting.
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

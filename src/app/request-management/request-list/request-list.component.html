@@ -1,0 +1,84 @@
+<!-- table.component.html -->
+
+<!-- Wrapper div to enable horizontal scrolling if table overflows -->
+<div class="overflow-x-auto">
+    <!-- Table title, dynamically bound to the title input property -->
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4"></h2>
+    
+    <!-- Main table container -->
+    <table class="min-w-full bg-white border border-gray-200">
+      <!-- Table header -->
+      <thead class="bg-gray-200 text-gray-800">
+        <tr>
+          <!-- Table column headers -->
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">#</th>
+          
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">startDate</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">endDate</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">reasonForLeave</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">requestDate</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">approvalStatus</th>
+         
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">approvedBy</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">approveedDate</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium uppercase tracking-wider">Action</th>
+        </tr>
+      </thead>
+     
+<tbody class="text-gray-700">
+    <!-- Loop through request list -->
+    <tr *ngFor="let request of Requests; let i = index" class="border-t">
+      <!-- Row number -->
+      <td class="px-4 py-2">{{ request.requestId}}</td>
+      
+      <!-- Start Date -->
+      <td class="px-4 py-2">{{ request.startDate | date:'yyyy-MM-dd' }}</td>
+      
+      <!-- End Date -->
+      <td class="px-4 py-2">{{ request.endDate | date:'yyyy-MM-dd' }}</td>
+      
+      <!-- Reason for Leave -->
+      <td class="px-4 py-2">{{ request.reasonForLeave }}</td>
+      
+      <!-- Request Date -->
+      <td class="px-4 py-2">{{ request.requestDate | date:'yyyy-MM-dd' }}</td>
+      
+      <!-- Approval Status -->
+      <td class="px-4 py-2">
+        <span [ngClass]="{
+          'text-green-500': request.approvalStatus === 'Approved',
+          'text-red-500': request.approvalStatus === 'Rejected',
+          'text-yellow-500': request.approvalStatus === 'Pending'
+        }">
+          {{ request.approvalStatus }}
+        </span>
+      </td>
+      
+      <!-- Approved By -->
+      <td class="px-4 py-2">{{ request.approvedBy}}</td>
+      <td class="px-4 py-2">{{ request.approvalDate }}</td>
+      
+     
+      
+      
+          <!-- Action button to delete the task -->
+          <td class="px-4 py-4 whitespace-nowrap text-sm">
+            <button type="button"  class=" uppdate text-blue-500 hover:text-blue-700 p-2 rounded-full" (click)="openModal()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+              </svg>
+            </button>   
+            <button (click)="deleteRequest(i)" class=" delete px-3 py-1 text-red-600 hover:bg-red-100 rounded focus:outline-none focus:ring-2 focus:ring-red-500 ml-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11V17M15 11V17M3 6h18M4 6l1 14h14l1-14H4z"></path>
+              </svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+      
+          
+  
+<app-request-form  *ngIf="isModalOpen" (closeModal)="closeModal()"></app-request-form>
